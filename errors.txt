@@ -1,0 +1,8 @@
+Error
+--go_out: protoc-gen-go: plugins are not supported; use 'protoc --go-grpc_out=...' to generate gRPC
+
+See https://grpc.io/docs/languages/go/quickstart/#regenerate-grpc-code for more information.
+
+Solution
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+go install github.com/golang/protobuf/protoc-gen-go
