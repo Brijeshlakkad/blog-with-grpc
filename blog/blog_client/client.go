@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"grpc-go-example/blog/blogpb"
+	"io"
 	"log"
 
 	"google.golang.org/grpc"
@@ -70,12 +71,29 @@ func main() {
 	// fmt.Printf("Blog was read: %v", updateRes)
 
 	// Delete blog
-	deleteRes, deleteErr := c.DeleteBlog(context.Background(), &blogpb.DeleteBlogRequest{
-		BlogId: "61cfd7aa1a9d34a8c2ea3419",
-	})
+	// deleteRes, deleteErr := c.DeleteBlog(context.Background(), &blogpb.DeleteBlogRequest{
+	// 	BlogId: "61cfd7aa1a9d34a8c2ea3419",
+	// })
 
-	if deleteErr != nil {
-		fmt.Printf("Error happened while deleting %v \n", deleteErr)
+	// if deleteErr != nil {
+	// 	fmt.Printf("Error happened while deleting %v \n", deleteErr)
+	// }
+	// fmt.Printf("Blog was deleted: %v", deleteRes)
+
+	// List blogs
+	resStream, err := c.ListBlog(context.Background(), &blogpb.ListBlogRequest{})
+	if err != nil {
+		log.Fatalf("error while calling ListBlog RPC: %v", err)
 	}
-	fmt.Printf("Blog was deleted: %v", deleteRes)
+	for {
+		res, err := resStream.Recv()
+		if err == io.EOF {
+			// we've reached the end of the stream
+			break
+		}
+		if err != nil {
+			log.Fatalf("error while reading stream: %v", err)
+		}
+		fmt.Println(res.GetBlog())
+	}
 }
