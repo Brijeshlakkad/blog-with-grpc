@@ -54,18 +54,28 @@ func main() {
 	// fmt.Printf("Blog was read %v", readBlogRes)
 
 	// Update blog
-	newBlog := &blogpb.Blog{
-		Id:       "61cfd7aa1a9d34a8c2ea3419",
-		AuthorId: "Changed Author",
-		Title:    "My First Blog (edited)",
-		Content:  "Content of the first blog, with some awesome additions!",
-	}
+	// newBlog := &blogpb.Blog{
+	// 	Id:       "61cfd7aa1a9d34a8c2ea3419",
+	// 	AuthorId: "Changed Author",
+	// 	Title:    "My First Blog (edited)",
+	// 	Content:  "Content of the first blog, with some awesome additions!",
+	// }
 
-	updateRes, updateErr := c.UpdateBlog(context.Background(), &blogpb.UpdateBlogRequest{
-		Blog: newBlog,
+	// updateRes, updateErr := c.UpdateBlog(context.Background(), &blogpb.UpdateBlogRequest{
+	// 	Blog: newBlog,
+	// })
+	// if updateErr != nil {
+	// 	fmt.Printf("Error happened while updating: %v \n", updateErr)
+	// }
+	// fmt.Printf("Blog was read: %v", updateRes)
+
+	// Delete blog
+	deleteRes, deleteErr := c.DeleteBlog(context.Background(), &blogpb.DeleteBlogRequest{
+		BlogId: "61cfd7aa1a9d34a8c2ea3419",
 	})
-	if updateErr != nil {
-		fmt.Printf("Error happened while updating: %v \n", updateErr)
+
+	if deleteErr != nil {
+		fmt.Printf("Error happened while deleting %v \n", deleteErr)
 	}
-	fmt.Printf("Blog was read: %v", updateRes)
+	fmt.Printf("Blog was deleted: %v", deleteRes)
 }
